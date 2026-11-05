@@ -32,7 +32,10 @@ function buildUrl(base: string, path: string, query?: Record<string, string | nu
 }
 
 /** Fetch wrapper that validates every response with the same Zod schema the mock uses. */
-export function createHttpClient(base: string = apiBaseUrl()): HttpClient {
+export function createHttpClient(
+  base: string = apiBaseUrl(),
+  fetchImpl: typeof fetch = (...args) => fetch(...args),
+): HttpClient {
   async function request<S extends z.ZodType>(
     method: string,
     path: string,
@@ -40,7 +43,7 @@ export function createHttpClient(base: string = apiBaseUrl()): HttpClient {
     body?: unknown,
     query?: Record<string, string | number | undefined>,
   ) {
-    const res = await fetch(buildUrl(base, path, query), {
+    const res = await fetchImpl(buildUrl(base, path, query), {
       method,
       headers: { "content-type": "application/json", accept: "application/json" },
       body: body === undefined ? undefined : JSON.stringify(body),
@@ -56,7 +59,7 @@ export function createHttpClient(base: string = apiBaseUrl()): HttpClient {
     patch: (path, body, schema) => request("PATCH", path, schema, body),
     async *stream(path, init) {
       // Server-Sent Events: yields the `data:` payload of each event.
-      const res = await fetch(buildUrl(base, path), {
+      const res = await fetchImpl(buildUrl(base, path), {
         headers: { accept: "text/event-stream" },
         signal: init?.signal,
         credentials: "include",

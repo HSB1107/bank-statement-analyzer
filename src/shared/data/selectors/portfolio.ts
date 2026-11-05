@@ -3,6 +3,7 @@ import { type Region } from "../schemas/customer";
 import { type Currency } from "@/shared/lib/money";
 import {
   INSIGHT_TARGETS,
+  NAMED_QUEUE,
   type InsightFlag,
   type Portfolio,
   type PortfolioCase,
@@ -52,6 +53,8 @@ export function filterCustomers(p: Portfolio, f: PortfolioFilters): PortfolioCus
     (c) => segmentMatches(c.segment, f.segment) && (f.region === "all" || c.region === f.region),
   );
 }
+
+const NAMED_IDS = new Set<string>(NAMED_QUEUE.map((q) => q.id));
 
 const growth = (now: number, before: number) => (before ? now / before - 1 : 0);
 
@@ -150,9 +153,12 @@ export function pipeline(p: Portfolio, f: PortfolioFilters) {
 }
 
 export function openCases(p: Portfolio, f: PortfolioFilters): PortfolioCase[] {
-  return filterCases(p, f)
-    .filter((c) => c.stage !== "archived" && (c.stage !== "completed" || c.demo || c.updatedMinutesAgo < 120))
-    .sort((a, b) => a.updatedMinutesAgo - b.updatedMinutesAgo);
+  return (
+    filterCases(p, f)
+      // Open = not completed/archived; the two named, just-completed PDF rows stay visible.
+      .filter((c) => c.stage !== "archived" && (c.stage !== "completed" || NAMED_IDS.has(c.id)))
+      .sort((a, b) => a.updatedMinutesAgo - b.updatedMinutesAgo)
+  );
 }
 
 const BANDS: readonly HealthBand[] = ["strong", "healthy", "watchlist", "weak", "critical"];

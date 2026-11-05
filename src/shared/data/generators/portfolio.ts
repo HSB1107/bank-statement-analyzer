@@ -473,7 +473,7 @@ export function getPortfolio(): Portfolio {
     ["IN", "ME", "ANZ"],
   );
   let poolCursor = 0;
-  let caseSerial = 2000;
+  let caseSerial = 5000; // above the named PDF case ids (04398–04433) so ids never collide
   for (const seg of segments) {
     const segCustomers = customers.filter((c) => c.segment === seg);
     const namedInSeg = NAMED_QUEUE.filter(
@@ -492,7 +492,7 @@ export function getPortfolio(): Portfolio {
         const region = regionPool[poolCursor] ?? "IN";
         poolCursor++;
         const caseId = CaseIdSchema.parse(
-          `BSA-${caseSerial < 4398 ? 25 : 26}-${String(caseSerial++).padStart(5, "0")}`,
+          `BSA-${caseSerial < 6500 ? 25 : 26}-${String(caseSerial++).padStart(5, "0")}`,
         );
         if (k === 0) {
           cust.region = region;

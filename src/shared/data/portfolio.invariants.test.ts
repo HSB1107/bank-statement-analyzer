@@ -85,3 +85,11 @@ describe("Executive dashboard — computed from the seeded portfolio", () => {
     expect(i.circular_flow.caseIds[0]).toBe("BSA-26-04421");
   });
 });
+
+describe("portfolio integrity", () => {
+  it("has unique case ids and 295 queue rows (293 open + 2 named completed)", async () => {
+    const { openCases } = await import("./selectors/portfolio");
+    expect(new Set(p.cases.map((c) => c.id)).size).toBe(p.cases.length);
+    expect(openCases(p, DEFAULT_FILTERS)).toHaveLength(295);
+  });
+});

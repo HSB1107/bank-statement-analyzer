@@ -1,10 +1,7 @@
-import { PageHeading } from "@/shared/layout/breadcrumbs";
+import { DashboardScreen } from "@/features/dashboard";
+
+export const metadata = { title: "Executive Dashboard" };
 
 export default function DashboardPage() {
-  return (
-    <PageHeading
-      title="Transaction Intelligence Dashboard"
-      subtitle="Statement processing, financial profiling and risk across retail and corporate underwriting."
-    />
-  );
+  return <DashboardScreen />;
 }

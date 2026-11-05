@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { useState, type ReactNode } from "react";
-import { ServiceRegistryProvider } from "@/shared/lib/di";
+import { ServiceRegistryProvider } from "@/shared/lib/di-react";
 import { TooltipProvider } from "@/shared/ui/tooltip";
 import { createContainer } from "./container";
 
