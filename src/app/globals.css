@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Design tokens. Dark is the reference theme (PDF); light is derived with the same
+ * hues at AA-safe lightness. Components only use these tokens — no hard-coded colours.
+ */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #090d12;
+  --bg-grid: rgb(255 255 255 / 0.025);
+  --surface: #10161d;
+  --surface-2: #151d26;
+  --surface-3: #1b2530;
+  --surface-raised: #1f2a36;
+  --border: #212c38;
+  --border-strong: #2d3b4a;
+  --fg: #e9eef3;
+  --muted: #9aa7b5;
+  --subtle: #7f8d9c;
+  --primary: #c6ff00;
+  --primary-fg: #0b1004;
+  --lime: #c6ff00;
+  --info: #22d8f0;
+  --positive: #10dfa0;
+  --warning: #ffb547;
+  --negative: #ff5f6d;
+  --magenta: #ff5bd8;
+  --indigo: #8b97ff;
+  --neutral: #8593a3;
+  --ring: #22d8f0;
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 8px 24px rgb(0 0 0 / 0.35);
+  --chart-1: #10dfa0;
+  --chart-2: #22d8f0;
+  --chart-3: #c6ff00;
+  --chart-4: #ffb547;
+  --chart-5: #ff5bd8;
+  --chart-6: #ff5f6d;
+  --chart-7: #8b97ff;
+  --chart-muted: #33475b;
+  --chart-grid: #1e2934;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f3f6f9;
+  --bg-grid: rgb(15 23 32 / 0.035);
+  --surface: #ffffff;
+  --surface-2: #f6f8fb;
+  --surface-3: #edf1f5;
+  --surface-raised: #e5ebf1;
+  --border: #dbe2ea;
+  --border-strong: #c5d0db;
+  --fg: #0e1621;
+  --muted: #4b5a6a;
+  --subtle: #5b6878;
+  --primary: #c6ff00;
+  --primary-fg: #0b1004;
+  --lime: #4a7300;
+  --info: #0b7285;
+  --positive: #047857;
+  --warning: #a35200;
+  --negative: #c81e3a;
+  --magenta: #b0198e;
+  --indigo: #4c4fd6;
+  --neutral: #5b6878;
+  --ring: #0b7285;
+  --shadow: 0 1px 2px rgb(15 23 32 / 0.06), 0 6px 18px rgb(15 23 32 / 0.06);
+  --chart-1: #059669;
+  --chart-2: #0891b2;
+  --chart-3: #65a30d;
+  --chart-4: #d97706;
+  --chart-5: #c026d3;
+  --chart-6: #e11d48;
+  --chart-7: #4f46e5;
+  --chart-muted: #b8c4d0;
+  --chart-grid: #e3e9ef;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-lime: var(--lime);
+  --color-info: var(--info);
+  --color-positive: var(--positive);
+  --color-warning: var(--warning);
+  --color-negative: var(--negative);
+  --color-magenta: var(--magenta);
+  --color-indigo: var(--indigo);
+  --color-neutral: var(--neutral);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+  --color-chart-muted: var(--chart-muted);
+  --color-chart-grid: var(--chart-grid);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  --shadow-card: var(--shadow);
+  --radius-card: 0.75rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    background: var(--bg);
+  }
+  body {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+    background-size: 44px 44px;
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--info) 35%, transparent);
+  }
+}
+
+@layer utilities {
+  /* Micro label: uppercase, letter-spaced mono — used for section kickers and table headers. */
+  .label-micro {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--subtle);
+  }
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  .hatched {
+    background-image: repeating-linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--muted) 22%, transparent) 0 2px,
+      transparent 2px 7px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

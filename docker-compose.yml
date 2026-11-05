@@ -1,0 +1,33 @@
+services:
+  # Hot-reload development server: source is bind-mounted, node_modules lives in a named volume.
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_DATA_SOURCE: ${NEXT_PUBLIC_DATA_SOURCE:-mock}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-}
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - next_cache:/app/.next
+    profiles: ["dev"]
+
+  # Production image (standalone output, non-root user).
+  prod:
+    build:
+      context: .
+      target: runtime
+      args:
+        NEXT_PUBLIC_DATA_SOURCE: ${NEXT_PUBLIC_DATA_SOURCE:-mock}
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-}
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+    profiles: ["prod"]
+
+volumes:
+  node_modules:
+  next_cache:
