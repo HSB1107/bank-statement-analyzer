@@ -5,15 +5,10 @@ import { getArjunDataset } from "@/shared/data/generators/arjun";
 import { getMeridianDataset } from "@/shared/data/generators/meridian";
 import { meridianInput } from "@/shared/data/meridian-input";
 import { PIPELINE_STAGE_DEFS } from "@/shared/data/pipeline";
-import {
-  dataQuality,
-  inflowConcentration,
-  cashFlow,
-  detectRoundTrips,
-  coverage,
-} from "@/shared/data/selectors/corporate";
+import { dataQuality, inflowConcentration, cashFlow } from "@/shared/data/selectors/corporate";
 import { isOwnTransfer, isPosted } from "@/shared/data/selectors/ledger";
 import { statementFilesFor } from "@/shared/data/statement-files";
+import { caseExceptions } from "@/shared/data/exceptions";
 import { type Account } from "@/shared/data/schemas/customer";
 import { type CaseId } from "@/shared/data/schemas/ids";
 import { type Transaction } from "@/shared/data/schemas/transaction";
@@ -48,7 +43,7 @@ const PENDING: readonly string[] = [
   "BSA-TPL-SME-IN · 14 sections",
 ];
 
-const SHORT = (a: Account) => `${a.bank}${a.type === "od_cc" ? " OD" : ""} XX${a.last4}`;
+export const SHORT = (a: Account) => `${a.bank}${a.type === "od_cc" ? " OD" : ""} XX${a.last4}`;
 const hubOf = (a: Account | undefined): "icici" | "hdfc" | "sbi" =>
   a?.bank === "HDFC" ? "hdfc" : a?.bank === "SBI" ? "sbi" : "icici";
 
@@ -107,7 +102,6 @@ function buildPlan(caseId: CaseId): { plan: ProcessingPlan; traces: { tag: strin
   const q = dataQuality(input);
   const cf = cashFlow(input);
   const conc = inflowConcentration(input);
-  const cov = coverage(input);
   const files = statementFilesFor(ds.customer.id);
   const dupFiles = files.filter((f) => f.status.kind === "duplicate").length;
   const scanned = files.filter((f) => f.status.kind === "low_ocr");
@@ -153,34 +147,7 @@ function buildPlan(caseId: CaseId): { plan: ProcessingPlan; traces: { tag: strin
     ...n,
     appearsAtStage: 10,
   }));
-  const trips = corporate ? detectRoundTrips(meridianInput()) : [];
-  const sbi = ds.accounts.find((a) => a.type === "od_cc");
-  const missing = cov.grid.flatMap((g) =>
-    g.months.map((m, i) => ({ g, m, i })).filter((x) => x.m === "missing"),
-  );
-  const exceptions = corporate
-    ? [
-        { tag: "OCR", text: `SBI May p.3 · ${q.ocrBelow90} rows below 90% OCR confidence` },
-        {
-          tag: "DUPLICATE",
-          text: `${q.duplicateRows} suspected duplicate debits · SBI 14-Mar · ₹${(q.duplicateAmountMinor / 1e9).toFixed(2)} cr`,
-        },
-        ...missing.map((x) => ({
-          tag: "COVERAGE",
-          text: `${SHORT(x.g.account).replace(/ XX\d+$/, "")} ${["January", "February", "March", "April", "May", "June"][x.i]} 2026 missing · balances N/A for ${["January", "February", "March", "April", "May", "June"][x.i]}`,
-        })),
-        { tag: "RECON", text: sbi ? "SBI Mar close ₹(0.71) cr ≠ May open ₹(1.24) cr — gap month" : "" },
-        { tag: "CLASSIFY", text: `${q.lowConfidence} low-confidence categories (< 85%)` },
-        {
-          tag: "CPTY",
-          text: `${trips.length + 1} counterparties match director names → related-party check`,
-        },
-        { tag: "REVERSAL", text: "HDFC · 1 unexplained reversal pattern → reconciliation warning" },
-      ]
-    : [
-        { tag: "CLASSIFY", text: `${q.lowConfidence} low-confidence categories (< 85%)` },
-        { tag: "RECON", text: "ACH return 05-May · balance excluded from ledger" },
-      ];
+  const exceptions = caseExceptions(caseId);
 
   const traces: { tag: string; text: string }[] = [];
   const sample = (pred: (x: Transaction) => boolean, k: number) =>
@@ -235,7 +202,7 @@ function buildPlan(caseId: CaseId): { plan: ProcessingPlan; traces: { tag: strin
       transactions: b.rows,
       confidence: b.extraction,
     })),
-    exceptions: exceptions.filter((e) => e.text),
+    exceptions,
     network: {
       hubs: ds.accounts.map((a) => ({ id: hubOf(a), label: a.type === "od_cc" ? "SBI-OD" : a.bank })),
       nodes: [...inflow, ...outflow],

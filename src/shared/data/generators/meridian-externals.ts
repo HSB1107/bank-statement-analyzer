@@ -1,6 +1,6 @@
 import { daysInMonth, isoDate, type IsoDate } from "@/shared/lib/dates";
 import { money } from "@/shared/lib/money";
-import { splitInteger, type Rng } from "@/shared/lib/prng";
+import { splitByWeights, splitInteger, type Rng } from "@/shared/lib/prng";
 import { type AccountId } from "../schemas/ids";
 import { type DraftTxn } from "./ledger-builder";
 import { refDigits } from "./ledger-builder";
@@ -409,7 +409,13 @@ export function buildExternals(rng: Rng, acct: MeridianAccounts): ExternalBuild 
       const isDupMonth = account === "sbi" && m0 === 2;
       if (isDupMonth && amounts.length > 1) {
         // 14-Mar SBI payment of ₹0.14 cr printed three times on the statement (same UTR).
-        amounts[1] = (amounts[1] ?? 0) + (amounts[0] ?? 0) - cr(0.14);
+        // Keep the bucket exact: the difference is deducted pro rata (whole rupees) from the other rows.
+        const need = cr(0.14) - (amounts[0] ?? 0);
+        const rest = amounts.slice(1);
+        const cuts = splitByWeights(Math.round(need / RUPEE), rest);
+        rest.forEach((v, k) => {
+          amounts[k + 1] = v - (cuts[k] ?? 0) * RUPEE;
+        });
         amounts[0] = cr(0.14);
       }
       amounts.forEach((amt, i) => {

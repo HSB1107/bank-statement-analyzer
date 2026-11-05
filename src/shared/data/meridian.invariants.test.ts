@@ -32,6 +32,12 @@ describe("Meridian Precision — PDF invariants (computed from the seeded 9,318-
     expect(m.quality.debits).toBe(5916);
   });
 
+  it("every amount is a positive integer of minor units", () => {
+    expect(
+      ds.transactions.every((t) => Number.isInteger(t.amount.amountMinor) && t.amount.amountMinor > 0),
+    ).toBe(true);
+  });
+
   it("receipts proxy ₹156.40 cr reconciles from gross credits", () => {
     expect(crore(cf.totals.grossCredits)).toBe(223.8);
     expect(crore(cf.totals.ownTransfers)).toBe(62.2);
