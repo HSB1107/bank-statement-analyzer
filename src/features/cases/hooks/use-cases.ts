@@ -2,7 +2,12 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useService } from "@/shared/lib/di-react";
-import { type AccountId, type CaseId, type StatementFileId } from "@/shared/data/schemas/ids";
+import {
+  type AccountId,
+  type CaseId,
+  type CustomerId,
+  type StatementFileId,
+} from "@/shared/data/schemas/ids";
 import { type AccountRole } from "@/shared/data/schemas/customer";
 import { type AddFileRequest, type CustomerContext, type ProcessingOptionsPatch } from "../schemas/cases";
 import { CaseServiceToken } from "../services/case-service";
@@ -15,6 +20,24 @@ const keys = {
 export function useCase(caseId: CaseId) {
   const svc = useService(CaseServiceToken);
   return useQuery({ queryKey: keys.detail(caseId), queryFn: () => svc.getCase(caseId) });
+}
+
+export function useCustomer(customerId: CustomerId) {
+  const svc = useService(CaseServiceToken);
+  return useQuery({
+    queryKey: ["customer", customerId],
+    queryFn: () => svc.getCustomer(customerId),
+    staleTime: Infinity,
+  });
+}
+
+export function useProfiles() {
+  const svc = useService(CaseServiceToken);
+  return useQuery({
+    queryKey: ["customer", "profiles"],
+    queryFn: () => svc.listProfiles(),
+    staleTime: Infinity,
+  });
 }
 
 export function useIngestion(caseId: CaseId) {

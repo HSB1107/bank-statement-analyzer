@@ -1,6 +1,11 @@
 import { describe } from "vitest";
 import { createAuditLog } from "@/shared/data/audit-log";
-import { AccountIdSchema, CaseIdSchema, StatementFileIdSchema } from "@/shared/data/schemas/ids";
+import {
+  AccountIdSchema,
+  CaseIdSchema,
+  CustomerIdSchema,
+  StatementFileIdSchema,
+} from "@/shared/data/schemas/ids";
 import { AccountRoleSchema } from "@/shared/data/schemas/customer";
 import { createHttpClient } from "@/shared/lib/http-client";
 import { createMockRuntime } from "@/shared/lib/mock-runtime";
@@ -20,6 +25,12 @@ describe("CaseService contract — http adapter (in-memory server)", () =>
   caseServiceContract(() => {
     const b = mock();
     const fetchImpl = createInMemoryFetch([
+      { method: "GET", path: "/customers/profiles", handler: () => b.listProfiles() },
+      {
+        method: "GET",
+        path: "/customers/:customerId",
+        handler: ({ params }) => b.getCustomer(CustomerIdSchema.parse(params.customerId)),
+      },
       { method: "GET", path: "/cases/:caseId", handler: ({ params }) => b.getCase(id(params)) },
       {
         method: "GET",

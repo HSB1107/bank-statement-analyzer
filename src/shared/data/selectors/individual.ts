@@ -399,7 +399,7 @@ export function recurringObligations(t: readonly Transaction[]): RecurringObliga
       recurringId: id,
       label: meta.label,
       sublabel: annual ? `${rows.length === 1 ? "" : ""}` : meta.sublabel,
-      counterparty: rows[0]?.counterparty.name ?? "",
+      counterparty: [...new Set(rows.map((r) => r.counterparty.name))].join(" · "),
       category: rows[0]?.category ?? "unclassified",
       avgMonthlyMinor: annual ? Math.round(total / 12) : Math.round(total / months.size),
       frequency: annual

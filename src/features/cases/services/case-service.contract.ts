@@ -1,11 +1,17 @@
 import { expect, it } from "vitest";
-import { CaseIdSchema } from "@/shared/data/schemas/ids";
+import { CaseIdSchema, CustomerIdSchema } from "@/shared/data/schemas/ids";
 import { type CaseService } from "./case-service";
 
 const MERIDIAN = CaseIdSchema.parse("BSA-26-04421");
 
 /** Contract every CaseService adapter must satisfy. */
 export function caseServiceContract(make: () => CaseService): void {
+  it("resolves customer kind for profile routing", async () => {
+    const svc = make();
+    expect((await svc.getCustomer(CustomerIdSchema.parse("CUST-IN-000318"))).kind).toBe("corporate");
+    expect((await svc.getCustomer(CustomerIdSchema.parse("CUST-IN-R-210457"))).kind).toBe("individual");
+    expect(await svc.listProfiles()).toHaveLength(2);
+  });
   it("returns the case header for the corporate demo case", async () => {
     const c = await make().getCase(MERIDIAN);
     expect(c.accounts).toBe(3);

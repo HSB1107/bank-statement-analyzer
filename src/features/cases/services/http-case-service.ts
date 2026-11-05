@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { type HttpClient } from "@/shared/lib/http-client";
 import { StatementFileSchema } from "@/shared/data/statement-files";
+import { CustomerListSchema, CustomerSummarySchema } from "../schemas/cases";
 import {
   CaseDetailSchema,
   CustomerContextSchema,
@@ -16,6 +17,8 @@ import { CASE_ENDPOINTS } from "./endpoints";
 export function createHttpCaseService(http: HttpClient): CaseService {
   return {
     getCase: (id) => http.get(CASE_ENDPOINTS.detail(id), CaseDetailSchema),
+    getCustomer: (id) => http.get(CASE_ENDPOINTS.customer(id), CustomerSummarySchema),
+    listProfiles: () => http.get(CASE_ENDPOINTS.profiles, CustomerListSchema),
     getIngestion: (id) => http.get(CASE_ENDPOINTS.ingestion(id), IngestionSchema),
     addFile: (id, file) => http.post(CASE_ENDPOINTS.files(id), file, StatementFileSchema),
     removeFile: async (id, fileId) => {

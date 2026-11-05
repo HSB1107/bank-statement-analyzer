@@ -1,4 +1,6 @@
 export const CASE_ENDPOINTS = {
+  customer: (customerId: string) => `/customers/${encodeURIComponent(customerId)}`,
+  profiles: "/customers/profiles",
   detail: (caseId: string) => `/cases/${encodeURIComponent(caseId)}`,
   ingestion: (caseId: string) => `/cases/${encodeURIComponent(caseId)}/ingestion`,
   files: (caseId: string) => `/cases/${encodeURIComponent(caseId)}/files`,

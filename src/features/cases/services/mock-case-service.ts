@@ -17,6 +17,7 @@ import {
 } from "@/shared/data/statement-files";
 import {
   CaseDetailSchema,
+  CustomerListSchema,
   CustomerContextSchema,
   IngestionSchema,
   ProcessingOptionIdSchema,
@@ -332,6 +333,16 @@ function ingestion(caseId: CaseId, state: CaseState) {
   });
 }
 
+const DIRECTORY = () =>
+  CustomerListSchema.parse(
+    [getArjunDataset().customer, getMeridianDataset().customer].map((c) => ({
+      customerId: c.id,
+      caseId: c.caseId,
+      kind: c.kind,
+      name: c.name,
+    })),
+  );
+
 export function createMockCaseService(runtime: MockRuntime, audit: AuditLog): CaseService {
   const states = new Map<string, CaseState>();
   const state = (caseId: CaseId) => {
@@ -347,6 +358,17 @@ export function createMockCaseService(runtime: MockRuntime, audit: AuditLog): Ca
     async getCase(caseId) {
       await runtime.delay();
       return state(caseId).detail;
+    },
+    async getCustomer(customerId) {
+      await runtime.delay();
+      const found = DIRECTORY().find((c) => c.customerId === customerId);
+      if (!found)
+        throw new Error(`Customer ${customerId} is not part of the Pass 1 demo (coming in Pass 2).`);
+      return found;
+    },
+    async listProfiles() {
+      await runtime.delay();
+      return DIRECTORY();
     },
     async getIngestion(caseId) {
       await runtime.delay();

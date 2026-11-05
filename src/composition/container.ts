@@ -1,5 +1,10 @@
 import { AuthServiceToken, createHttpAuthService, createMockAuthService } from "@/features/auth";
 import {
+  createHttpIndividualService,
+  createMockIndividualService,
+  IndividualProfileServiceToken,
+} from "@/features/profile-individual";
+import {
   createHttpTransactionService,
   createMockTransactionService,
   TransactionServiceToken,
@@ -57,6 +62,7 @@ function bindMockFeatures(
   registry.bind(CaseServiceToken, createMockCaseService(runtime, audit));
   registry.bind(ProcessingServiceToken, createMockProcessingService(runtime));
   registry.bind(TransactionServiceToken, createMockTransactionService(runtime, audit));
+  registry.bind(IndividualProfileServiceToken, createMockIndividualService(runtime, audit));
 }
 
 function bindHttpFeatures(registry: ServiceRegistry, http: ReturnType<typeof createHttpClient>): void {
@@ -64,4 +70,5 @@ function bindHttpFeatures(registry: ServiceRegistry, http: ReturnType<typeof cre
   registry.bind(CaseServiceToken, createHttpCaseService(http));
   registry.bind(ProcessingServiceToken, createHttpProcessingService(http));
   registry.bind(TransactionServiceToken, createHttpTransactionService(http));
+  registry.bind(IndividualProfileServiceToken, createHttpIndividualService(http));
 }

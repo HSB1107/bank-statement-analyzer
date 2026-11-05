@@ -139,3 +139,12 @@ export type AddFileRequest = z.infer<typeof AddFileRequestSchema>;
 export const StartProcessingResultSchema = z.object({ jobId: JobIdSchema, startedAt: z.string() });
 export type StartProcessingResult = z.infer<typeof StartProcessingResultSchema>;
 export const RemoveFileRequestSchema = z.object({ fileId: StatementFileIdSchema });
+
+export const CustomerSummarySchema = z.object({
+  customerId: CustomerIdSchema,
+  caseId: CaseIdSchema,
+  kind: CustomerKindSchema,
+  name: z.string(),
+});
+export type CustomerSummary = z.infer<typeof CustomerSummarySchema>;
+export const CustomerListSchema = z.array(CustomerSummarySchema);
