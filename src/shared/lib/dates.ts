@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 /** ISO calendar date `YYYY-MM-DD`. All date maths is UTC to stay timezone-independent. */
-export const IsoDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD").brand<"IsoDate">();
+export const IsoDateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "Expected YYYY-MM-DD")
+  .brand<"IsoDate">();
 export type IsoDate = z.infer<typeof IsoDateSchema>;
 
 export const IsoDateTimeSchema = z.iso.datetime().brand<"IsoDateTime">();

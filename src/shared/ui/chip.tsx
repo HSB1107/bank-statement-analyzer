@@ -10,7 +10,16 @@ export interface ChipProps extends HTMLAttributes<HTMLSpanElement> {
   size?: "xs" | "sm";
 }
 
-export function Chip({ tone = "neutral", variant = "soft", dot = false, mono = false, size = "sm", className, children, ...rest }: ChipProps) {
+export function Chip({
+  tone = "neutral",
+  variant = "soft",
+  dot = false,
+  mono = false,
+  size = "sm",
+  className,
+  children,
+  ...rest
+}: ChipProps) {
   return (
     <span
       className={cn(
@@ -34,7 +43,14 @@ export function Chip({ tone = "neutral", variant = "soft", dot = false, mono = f
 /** Amber dashed badge kept on every screen: synthetic / demo data. */
 export function SyntheticBadge({ label = "SYNTHETIC", className }: { label?: string; className?: string }) {
   return (
-    <Chip tone="warning" variant="dashed" mono size="xs" className={className} title="Synthetic demo data — fictional customers">
+    <Chip
+      tone="warning"
+      variant="dashed"
+      mono
+      size="xs"
+      className={className}
+      title="Synthetic demo data — fictional customers"
+    >
       {label}
     </Chip>
   );

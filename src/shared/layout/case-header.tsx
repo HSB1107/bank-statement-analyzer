@@ -19,7 +19,10 @@ function Fact({ label, value, highlight = false }: { label: string; value: strin
 
 export function CaseHeader({ data }: { data: CaseHeaderData }) {
   return (
-    <section aria-label="Case summary" className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-[var(--radius-card)] border border-border bg-surface px-5 py-4 shadow-card">
+    <section
+      aria-label="Case summary"
+      className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-[var(--radius-card)] border border-border bg-surface px-5 py-4 shadow-card"
+    >
       <div>
         <p className="label-micro text-[10px]">Case</p>
         <p className="num mt-1 text-lg font-semibold text-info">{data.caseId}</p>

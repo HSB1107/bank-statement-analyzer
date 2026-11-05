@@ -8,7 +8,8 @@ const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["lati
 
 export const metadata: Metadata = {
   title: { default: "FinnOne Neo · Bank Statement Analyzer", template: "%s · FinnOne Neo BSA" },
-  description: "Decode Financial Behaviour. Discover Financial Health. Prototype Pass 1 — synthetic demo data.",
+  description:
+    "Decode Financial Behaviour. Discover Financial Health. Prototype Pass 1 — synthetic demo data.",
 };
 
 export const viewport: Viewport = {
@@ -20,7 +21,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" data-theme="dark" suppressHydrationWarning className={`${inter.variable} ${jetbrains.variable}`}>
+    <html
+      lang="en-IN"
+      data-theme="dark"
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrains.variable}`}
+    >
       <body>
         <Providers>{children}</Providers>
       </body>

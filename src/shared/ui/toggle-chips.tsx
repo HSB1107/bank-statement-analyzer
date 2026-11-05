@@ -34,7 +34,9 @@ export function ToggleChips<V extends string>({
             onClick={() => onChange(o.value)}
             className={cn(
               "h-8 rounded-md border px-3 text-[13px] font-medium transition-colors",
-              active ? "border-lime/60 bg-lime/12 text-lime" : "border-border-strong bg-surface-2 text-muted hover:text-fg",
+              active
+                ? "border-lime/60 bg-lime/12 text-lime"
+                : "border-border-strong bg-surface-2 text-muted hover:text-fg",
             )}
           >
             {o.label}

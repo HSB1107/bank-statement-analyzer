@@ -27,7 +27,14 @@ export function provenanceTone(p: Provenance): Tone {
 
 export function ProvenanceTag({ value, className }: { value: Provenance; className?: string }) {
   return (
-    <Chip tone={provenanceTone(value)} variant="outline" mono size="xs" className={className} title={DESCRIPTIONS[value]}>
+    <Chip
+      tone={provenanceTone(value)}
+      variant="outline"
+      mono
+      size="xs"
+      className={className}
+      title={DESCRIPTIONS[value]}
+    >
       {value}
     </Chip>
   );

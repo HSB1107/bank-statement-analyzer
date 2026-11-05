@@ -14,7 +14,13 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-export function Logo({ subtitle = "BANK STMT ANALYZER", className }: { subtitle?: string; className?: string }) {
+export function Logo({
+  subtitle = "BANK STMT ANALYZER",
+  className,
+}: {
+  subtitle?: string;
+  className?: string;
+}) {
   return (
     <span className={cn("flex items-center gap-3", className)}>
       <LogoMark />

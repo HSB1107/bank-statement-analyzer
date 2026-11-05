@@ -90,7 +90,13 @@ function resolveScale(scale: MoneyScale, majorAbs: number): Exclude<MoneyScale, 
   return "full";
 }
 
-function applySign(body: string, negative: boolean, positive: boolean, sign: SignStyle, ascii: boolean): string {
+function applySign(
+  body: string,
+  negative: boolean,
+  positive: boolean,
+  sign: SignStyle,
+  ascii: boolean,
+): string {
   const minus = ascii ? "-" : "−";
   switch (sign) {
     case "none":

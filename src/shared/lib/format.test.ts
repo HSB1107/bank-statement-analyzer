@@ -64,7 +64,9 @@ describe("percent, multiples and availability", () => {
     expect(formatMultiple(3.45 / 5.25)).toBe("0.66×");
   });
   it("renders NotAvailable instead of zero", () => {
-    expect(formatAvailability(notAvailable("SBI April statement missing"), (v: number) => formatPercent(v))).toBe("N/A");
+    expect(
+      formatAvailability(notAvailable("SBI April statement missing"), (v: number) => formatPercent(v)),
+    ).toBe("N/A");
     expect(formatAvailability(available(0.477), (v: number) => formatPercent(v))).toBe("47.7%");
   });
 });

@@ -19,7 +19,13 @@ export function Providers({ children }: { children: ReactNode }) {
   );
   const [registry] = useState(() => createContainer());
   return (
-    <ThemeProvider attribute="data-theme" defaultTheme="dark" themes={["dark", "light"]} enableSystem={false} disableTransitionOnChange>
+    <ThemeProvider
+      attribute="data-theme"
+      defaultTheme="dark"
+      themes={["dark", "light"]}
+      enableSystem={false}
+      disableTransitionOnChange
+    >
       <QueryClientProvider client={queryClient}>
         <ServiceRegistryProvider registry={registry}>
           <TooltipProvider>{children}</TooltipProvider>

@@ -48,7 +48,14 @@ export function KpiCard({ item, compact = false }: { item: KpiItem; compact?: bo
         </span>
         {item.provenance ? <ProvenanceTag value={item.provenance} /> : null}
       </div>
-      <div className={cn("num leading-none font-semibold", compact ? "text-xl" : "text-[1.6rem]", TONE_TEXT[item.tone ?? "neutral"], !item.tone && "text-fg")}>
+      <div
+        className={cn(
+          "num leading-none font-semibold",
+          compact ? "text-xl" : "text-[1.6rem]",
+          TONE_TEXT[item.tone ?? "neutral"],
+          !item.tone && "text-fg",
+        )}
+      >
         {item.value}
         {item.unit ? <span className="ml-1 text-sm font-normal text-muted">{item.unit}</span> : null}
       </div>
@@ -58,7 +65,15 @@ export function KpiCard({ item, compact = false }: { item: KpiItem; compact?: bo
   );
 }
 
-export function KpiGrid({ items, className, compact }: { items: readonly KpiItem[]; className?: string; compact?: boolean }) {
+export function KpiGrid({
+  items,
+  className,
+  compact,
+}: {
+  items: readonly KpiItem[];
+  className?: string;
+  compact?: boolean;
+}) {
   return (
     <div className={cn("grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8", className)}>
       {items.map((item) => (

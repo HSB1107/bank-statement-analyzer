@@ -2,7 +2,17 @@ import { cn } from "@/shared/lib/cn";
 import { TONE_BG, type Tone } from "./tone";
 
 /** Horizontal bar 0..1. Purely visual — always pair with a text value. */
-export function Meter({ value, tone = "positive", className, label }: { value: number; tone?: Tone; className?: string; label?: string }) {
+export function Meter({
+  value,
+  tone = "positive",
+  className,
+  label,
+}: {
+  value: number;
+  tone?: Tone;
+  className?: string;
+  label?: string;
+}) {
   const pct = Math.max(0, Math.min(1, value)) * 100;
   return (
     <div
@@ -30,7 +40,9 @@ export function ConfidenceBar({ value, className }: { value: number; className?:
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
       <Meter value={value} tone={tone} className="w-10" label={`Confidence ${Math.round(value * 100)}`} />
-      <span className={cn("num text-xs", tone === "warning" ? "text-warning" : "text-muted")}>{Math.round(value * 100)}</span>
+      <span className={cn("num text-xs", tone === "warning" ? "text-warning" : "text-muted")}>
+        {Math.round(value * 100)}
+      </span>
     </span>
   );
 }

@@ -13,7 +13,17 @@ export interface PanelProps extends Omit<HTMLAttributes<HTMLElement>, "title"> {
   as?: "section" | "div" | "article";
 }
 
-export function Panel({ title, meta, actions, highlight, className, bodyClassName, children, as = "section", ...rest }: PanelProps) {
+export function Panel({
+  title,
+  meta,
+  actions,
+  highlight,
+  className,
+  bodyClassName,
+  children,
+  as = "section",
+  ...rest
+}: PanelProps) {
   const Comp = as;
   return (
     <Comp

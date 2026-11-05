@@ -24,7 +24,10 @@ export function AppShell({ children, user, badges, commandGroups, onSignOut }: A
   const setMobileOpen = useUiStore((s) => s.setMobileNavOpen);
   return (
     <div className="flex min-h-dvh">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-fg">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-fg"
+      >
         Skip to content
       </a>
       <aside className="sticky top-0 hidden h-dvh w-[252px] shrink-0 border-r border-border bg-surface/70 lg:block">
@@ -36,7 +39,12 @@ export function AppShell({ children, user, badges, commandGroups, onSignOut }: A
           <Dialog.Content className="fixed inset-y-0 left-0 z-50 w-[280px] border-r border-border bg-surface lg:hidden">
             <Dialog.Title className="sr-only">Navigation</Dialog.Title>
             <Dialog.Close asChild>
-              <Button variant="ghost" size="icon" aria-label="Close navigation" className="absolute top-2.5 right-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Close navigation"
+                className="absolute top-2.5 right-2"
+              >
                 <X aria-hidden />
               </Button>
             </Dialog.Close>

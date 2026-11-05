@@ -1,7 +1,16 @@
 import { z } from "zod";
 
 /** Semantic colour tones. Every coloured element maps to a token through these. */
-export const ToneSchema = z.enum(["positive", "negative", "warning", "info", "magenta", "lime", "indigo", "neutral"]);
+export const ToneSchema = z.enum([
+  "positive",
+  "negative",
+  "warning",
+  "info",
+  "magenta",
+  "lime",
+  "indigo",
+  "neutral",
+]);
 export type Tone = z.infer<typeof ToneSchema>;
 
 export const TONE_TEXT: Readonly<Record<Tone, string>> = {

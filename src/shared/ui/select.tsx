@@ -20,7 +20,15 @@ export interface FilterSelectProps<V extends string> {
 }
 
 /** Pill select used across filters: "Period  Last 30 days ⌄". */
-export function FilterSelect<V extends string>({ label, value, options, onValueChange, className, ariaLabel, size = "md" }: FilterSelectProps<V>) {
+export function FilterSelect<V extends string>({
+  label,
+  value,
+  options,
+  onValueChange,
+  className,
+  ariaLabel,
+  size = "md",
+}: FilterSelectProps<V>) {
   const current = options.find((o) => o.value === value);
   return (
     <RSelect.Root
@@ -47,7 +55,11 @@ export function FilterSelect<V extends string>({ label, value, options, onValueC
         </RSelect.Icon>
       </RSelect.Trigger>
       <RSelect.Portal>
-        <RSelect.Content position="popper" sideOffset={6} className="z-50 max-h-80 min-w-[10rem] overflow-hidden rounded-lg border border-border-strong bg-surface-2 shadow-card">
+        <RSelect.Content
+          position="popper"
+          sideOffset={6}
+          className="z-50 max-h-80 min-w-[10rem] overflow-hidden rounded-lg border border-border-strong bg-surface-2 shadow-card"
+        >
           <RSelect.Viewport className="p-1">
             {options.map((o) => (
               <RSelect.Item

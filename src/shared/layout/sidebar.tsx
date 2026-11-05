@@ -12,7 +12,13 @@ function isActive(item: NavItem, pathname: string): boolean {
   return (item.activePrefixes ?? []).some((p) => pathname.startsWith(p));
 }
 
-export function Sidebar({ badges, onNavigate }: { badges?: Partial<Record<NavBadgeKey, number>>; onNavigate?: () => void }) {
+export function Sidebar({
+  badges,
+  onNavigate,
+}: {
+  badges?: Partial<Record<NavBadgeKey, number>>;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
   return (
     <div className="flex h-full flex-col">
@@ -21,7 +27,7 @@ export function Sidebar({ badges, onNavigate }: { badges?: Partial<Record<NavBad
           <Logo />
         </Link>
       </div>
-      <nav aria-label="Primary" className="scrollbar-thin flex-1 overflow-y-auto px-3 py-4">
+      <nav aria-label="Primary" className="flex-1 scrollbar-thin overflow-y-auto px-3 py-4">
         {NAV_SECTIONS.map((section) => (
           <div key={section.id} className="mb-5">
             <p className="label-micro mb-2 px-2 text-[10px]">{section.label}</p>
@@ -38,12 +44,19 @@ export function Sidebar({ badges, onNavigate }: { badges?: Partial<Record<NavBad
                       aria-current={active ? "page" : undefined}
                       className={cn(
                         "relative flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm transition-colors",
-                        active ? "bg-lime/10 font-medium text-fg before:absolute before:top-1.5 before:bottom-1.5 before:-left-3 before:w-0.5 before:rounded-full before:bg-lime" : "text-muted hover:bg-surface-3 hover:text-fg",
+                        active
+                          ? "bg-lime/10 font-medium text-fg before:absolute before:top-1.5 before:bottom-1.5 before:-left-3 before:w-0.5 before:rounded-full before:bg-lime"
+                          : "text-muted hover:bg-surface-3 hover:text-fg",
                       )}
                     >
-                      <Icon className={cn("size-4 shrink-0", active ? "text-lime" : "text-subtle")} aria-hidden />
+                      <Icon
+                        className={cn("size-4 shrink-0", active ? "text-lime" : "text-subtle")}
+                        aria-hidden
+                      />
                       <span className="flex-1 truncate">{item.label}</span>
-                      {badge !== undefined ? <span className="num text-[11px] text-subtle">{formatCount(badge)}</span> : null}
+                      {badge !== undefined ? (
+                        <span className="num text-[11px] text-subtle">{formatCount(badge)}</span>
+                      ) : null}
                       {item.pass === 2 ? <span className="sr-only">(coming in Pass 2)</span> : null}
                     </Link>
                   </li>

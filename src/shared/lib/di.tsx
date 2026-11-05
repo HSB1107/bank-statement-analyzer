@@ -33,7 +33,13 @@ export class ServiceRegistry {
 
 const RegistryContext = createContext<ServiceRegistry | null>(null);
 
-export function ServiceRegistryProvider({ registry, children }: { registry: ServiceRegistry; children: ReactNode }) {
+export function ServiceRegistryProvider({
+  registry,
+  children,
+}: {
+  registry: ServiceRegistry;
+  children: ReactNode;
+}) {
   return <RegistryContext.Provider value={registry}>{children}</RegistryContext.Provider>;
 }
 

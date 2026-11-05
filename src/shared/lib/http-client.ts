@@ -12,21 +12,34 @@ export class HttpError extends Error {
 }
 
 export interface HttpClient {
-  get<S extends z.ZodType>(path: string, schema: S, query?: Record<string, string | number | undefined>): Promise<z.infer<S>>;
+  get<S extends z.ZodType>(
+    path: string,
+    schema: S,
+    query?: Record<string, string | number | undefined>,
+  ): Promise<z.infer<S>>;
   post<S extends z.ZodType>(path: string, body: unknown, schema: S): Promise<z.infer<S>>;
   patch<S extends z.ZodType>(path: string, body: unknown, schema: S): Promise<z.infer<S>>;
   stream(path: string, init?: { signal?: AbortSignal }): AsyncIterable<string>;
 }
 
 function buildUrl(base: string, path: string, query?: Record<string, string | number | undefined>): string {
-  const url = new URL(`${base.replace(/\/$/, "")}${path}`, typeof window === "undefined" ? "http://localhost" : window.location.origin);
+  const url = new URL(
+    `${base.replace(/\/$/, "")}${path}`,
+    typeof window === "undefined" ? "http://localhost" : window.location.origin,
+  );
   for (const [k, v] of Object.entries(query ?? {})) if (v !== undefined) url.searchParams.set(k, String(v));
   return url.toString();
 }
 
 /** Fetch wrapper that validates every response with the same Zod schema the mock uses. */
 export function createHttpClient(base: string = apiBaseUrl()): HttpClient {
-  async function request<S extends z.ZodType>(method: string, path: string, schema: S, body?: unknown, query?: Record<string, string | number | undefined>) {
+  async function request<S extends z.ZodType>(
+    method: string,
+    path: string,
+    schema: S,
+    body?: unknown,
+    query?: Record<string, string | number | undefined>,
+  ) {
     const res = await fetch(buildUrl(base, path, query), {
       method,
       headers: { "content-type": "application/json", accept: "application/json" },
@@ -43,7 +56,11 @@ export function createHttpClient(base: string = apiBaseUrl()): HttpClient {
     patch: (path, body, schema) => request("PATCH", path, schema, body),
     async *stream(path, init) {
       // Server-Sent Events: yields the `data:` payload of each event.
-      const res = await fetch(buildUrl(base, path), { headers: { accept: "text/event-stream" }, signal: init?.signal, credentials: "include" });
+      const res = await fetch(buildUrl(base, path), {
+        headers: { accept: "text/event-stream" },
+        signal: init?.signal,
+        credentials: "include",
+      });
       if (!res.ok || !res.body) throw new HttpError(res.status, `STREAM ${path} failed with ${res.status}`);
       const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
       let buffer = "";
