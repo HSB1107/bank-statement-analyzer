@@ -1,5 +1,11 @@
 import { AuthServiceToken, createHttpAuthService, createMockAuthService } from "@/features/auth";
 import {
+  createHttpProcessingService,
+  createMockProcessingService,
+  ProcessingServiceToken,
+} from "@/features/processing";
+import { CaseServiceToken, createHttpCaseService, createMockCaseService } from "@/features/cases";
+import {
   createHttpDashboardService,
   createMockDashboardService,
   DashboardServiceToken,
@@ -42,10 +48,13 @@ function bindMockFeatures(
   runtime: ReturnType<typeof createMockRuntime>,
   audit: ReturnType<typeof createAuditLog>,
 ): void {
-  void audit;
   registry.bind(DashboardServiceToken, createMockDashboardService(runtime));
+  registry.bind(CaseServiceToken, createMockCaseService(runtime, audit));
+  registry.bind(ProcessingServiceToken, createMockProcessingService(runtime));
 }
 
 function bindHttpFeatures(registry: ServiceRegistry, http: ReturnType<typeof createHttpClient>): void {
   registry.bind(DashboardServiceToken, createHttpDashboardService(http));
+  registry.bind(CaseServiceToken, createHttpCaseService(http));
+  registry.bind(ProcessingServiceToken, createHttpProcessingService(http));
 }

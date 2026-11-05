@@ -24,3 +24,5 @@ Short log of choices that are not dictated by the PDF, or where screens disagree
 - **Dashboard work queue** shows the open cases from the pipeline (46+61+29+52+18+87 = 293) plus the two just-completed named rows the PDF lists (Neha Kapoor, Southern Cross), so 295. The PDF's "8 of 247" does not reconcile with the pipeline counts. 336 cases (2,947 − 2,611) are archived without a profile and sit outside the pipeline.
 - **Awaiting Review delta**: 87 vs 77 a month earlier is +13.0%; the PDF shows +12.9%.
 - **Meridian collections weeks** are 7-day blocks from 01-Jan (181 days → 26 blocks).
+- **OCR on SBI May p.3** is computed as ~87%. The PDF's "p.3 at 84%" cannot coexist with its 96.2% overall OCR mean over the scanned statement; the overall 96.2% (and "38 rows below 90%") is kept.
+- **Processing exceptions**: the PDF lists six rows under "Exceptions Raised · 7". The seventh is the HDFC unexplained-reversal reconciliation warning shown on screen 05.
