@@ -196,7 +196,7 @@ export function FundFlowGraph({
   };
   return (
     <svg
-      viewBox={`0 0 ${W} ${H}`}
+      viewBox={`-110 0 ${W + 220} ${H}`}
       className="h-auto w-full"
       role="group"
       aria-label="Transaction intelligence graph. Each counterparty is a button; select one to see its details."
