@@ -18,7 +18,7 @@ import { Meter } from "@/shared/ui/meter";
 import { Panel } from "@/shared/ui/panel";
 import { TONE_TEXT } from "@/shared/ui/tone";
 import { type IncomeAnalysis } from "../schemas/individual";
-import { renderKpis, type KpiDef } from "./kpi-defs";
+import { renderKpis, type KpiDef } from "@/shared/ui/kpi-defs";
 
 const KPIS: readonly KpiDef<IncomeAnalysis>[] = [
   {

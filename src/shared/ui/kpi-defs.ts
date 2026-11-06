@@ -1,6 +1,6 @@
 import { type Provenance } from "@/shared/lib/provenance";
-import { type KpiItem } from "@/shared/ui/kpi-card";
-import { type Tone } from "@/shared/ui/tone";
+import { type KpiItem } from "./kpi-card";
+import { type Tone } from "./tone";
 
 /** A KPI card defined as data over a view model. */
 export interface KpiDef<VM> {

@@ -30,7 +30,7 @@ import { FilterSelect } from "@/shared/ui/select";
 import { Table, Td, Th } from "@/shared/ui/table";
 import { TONE_VAR } from "@/shared/ui/tone";
 import { type LiquidityAnalysis } from "../schemas/individual";
-import { renderKpis, type KpiDef } from "./kpi-defs";
+import { renderKpis, type KpiDef } from "@/shared/ui/kpi-defs";
 
 const KPIS: readonly KpiDef<LiquidityAnalysis>[] = [
   {

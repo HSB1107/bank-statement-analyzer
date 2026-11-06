@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCustomer, useProfiles } from "@/features/cases";
+import { CorporateProfile } from "@/features/profile-corporate";
 import { IndividualProfile } from "@/features/profile-individual";
 import { assertNever } from "@/shared/lib/assert";
 import { type CustomerId } from "@/shared/data/schemas/ids";
@@ -32,7 +33,13 @@ export function ProfileRoute({ customerId, tab }: { customerId: CustomerId; tab:
         />
       );
     case "corporate":
-      return <Pass2Placeholder title="Corporate profile" description="Wired in phase 7." />;
+      return (
+        <CorporateProfile
+          customerId={customerId}
+          tab={tab}
+          riskSlot={<Pass2Placeholder title="AI Risk Signals" />}
+        />
+      );
     default:
       return assertNever(kind, "customer kind");
   }
