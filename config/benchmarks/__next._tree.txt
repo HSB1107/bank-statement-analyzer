@@ -1,0 +1,7 @@
+:HL["/bank-statement-analyzer/_next/static/chunks/30uy-9tm_w-3h.css","style"]
+:HL["/bank-statement-analyzer/_next/static/media/07c7676b89ed2778-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/bank-statement-analyzer/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+3:[["children",{"s":"__PAGE__","h":160}]]
+2:[["children",{"s":{"n":"slug","t":"c","k":"config/benchmarks","s":["cases","dashboard","login","profiles"]},"h":65632,"c":"$Q3"}]]
+1:[["children",{"s":"(app)","h":131168,"c":"$Q2"}]]
+0:{"b":"3jkDb-DYdNrUR2EqLzYt4","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
