@@ -67,10 +67,13 @@ export function CorporateProfile({
   customerId,
   tab,
   riskSlot,
+  riskBadge,
 }: {
   customerId: CustomerId;
   tab: string;
   riskSlot: ReactNode;
+  /** Live active-signal count from the risk feature; falls back to the header's snapshot. */
+  riskBadge?: number;
 }) {
   const header = useCorporateHeader(customerId);
   const save = useSaveCorporate(customerId);
@@ -100,7 +103,7 @@ export function CorporateProfile({
           id: t.id,
           label: t.label,
           href: `/profiles/${customerId}/${t.id}`,
-          badge: t.id === "risk" && h ? h.openSignals : undefined,
+          badge: t.id === "risk" ? (riskBadge ?? h?.openSignals) : undefined,
         }))}
       />
       {!def || def.pass === 2 ? (

@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useCustomer, useProfiles } from "@/features/cases";
 import { CorporateProfile } from "@/features/profile-corporate";
 import { IndividualProfile } from "@/features/profile-individual";
+import { RiskScreen, useRiskBadge } from "@/features/risk";
+import { type CustomerKind } from "@/shared/data/schemas/customer";
 import { assertNever } from "@/shared/lib/assert";
-import { type CustomerId } from "@/shared/data/schemas/ids";
+import { type CaseId, type CustomerId } from "@/shared/data/schemas/ids";
 import { Breadcrumbs, PageHeading } from "@/shared/layout/breadcrumbs";
 import { Pass2Placeholder } from "@/shared/layout/pass2-placeholder";
 import { Chip, SyntheticBadge } from "@/shared/ui/chip";
@@ -22,22 +24,37 @@ export function ProfileRoute({ customerId, tab }: { customerId: CustomerId; tab:
       />
     );
   if (!customer.data) return <PanelSkeleton rows={10} />;
-  const kind = customer.data.kind;
+  return <ProfileWithRisk customer={customer.data} tab={tab} />;
+}
+
+/** Plugs the risk feature into either profile shell: the AI Risk Signals tab body and its live badge. */
+function ProfileWithRisk({
+  customer,
+  tab,
+}: {
+  customer: { customerId: CustomerId; caseId: CaseId; kind: CustomerKind };
+  tab: string;
+}) {
+  const riskBadge = useRiskBadge(customer.caseId);
+  const riskSlot = <RiskScreen caseId={customer.caseId} />;
+  const kind = customer.kind;
   switch (kind) {
     case "individual":
       return (
         <IndividualProfile
-          customerId={customerId}
+          customerId={customer.customerId}
           tab={tab}
-          riskSlot={<Pass2Placeholder title="AI Risk Signals" />}
+          riskSlot={riskSlot}
+          riskBadge={riskBadge}
         />
       );
     case "corporate":
       return (
         <CorporateProfile
-          customerId={customerId}
+          customerId={customer.customerId}
           tab={tab}
-          riskSlot={<Pass2Placeholder title="AI Risk Signals" />}
+          riskSlot={riskSlot}
+          riskBadge={riskBadge}
         />
       );
     default:

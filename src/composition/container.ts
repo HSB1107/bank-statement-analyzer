@@ -9,6 +9,7 @@ import {
   createHttpCorporateService,
   createMockCorporateService,
 } from "@/features/profile-corporate";
+import { createHttpRiskService, createMockRiskService, RiskServiceToken } from "@/features/risk";
 import {
   createHttpTransactionService,
   createMockTransactionService,
@@ -69,6 +70,7 @@ function bindMockFeatures(
   registry.bind(TransactionServiceToken, createMockTransactionService(runtime, audit));
   registry.bind(IndividualProfileServiceToken, createMockIndividualService(runtime, audit));
   registry.bind(CorporateProfileServiceToken, createMockCorporateService(runtime, audit));
+  registry.bind(RiskServiceToken, createMockRiskService(runtime, audit));
 }
 
 function bindHttpFeatures(registry: ServiceRegistry, http: ReturnType<typeof createHttpClient>): void {
@@ -78,4 +80,5 @@ function bindHttpFeatures(registry: ServiceRegistry, http: ReturnType<typeof cre
   registry.bind(TransactionServiceToken, createHttpTransactionService(http));
   registry.bind(IndividualProfileServiceToken, createHttpIndividualService(http));
   registry.bind(CorporateProfileServiceToken, createHttpCorporateService(http));
+  registry.bind(RiskServiceToken, createHttpRiskService(http));
 }
