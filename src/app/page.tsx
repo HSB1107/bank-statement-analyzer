@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { ClientRedirect } from "@/shared/layout/client-redirect";
 
 export default function Home() {
-  redirect("/dashboard");
+  return <ClientRedirect to="/dashboard" />;
 }

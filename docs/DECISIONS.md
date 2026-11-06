@@ -36,3 +36,8 @@ Short log of choices that are not dictated by the PDF, or where screens disagree
 - `npm run check` (typecheck + lint with zero warnings + 110 tests) passes.
 - Every text token meets WCAG AA (≥ 4.5:1) on all four surfaces in both themes, checked from the CSS tokens.
 - `docker build --target runtime` succeeds. The container serves `/login` and `/dashboard` as the non-root `nextjs` user; the image is about 327 MB.
+
+## Deployment
+
+- **GitHub Pages = static export.** `next.config.ts` switches to `output: "export"` with `basePath: /bank-statement-analyzer` when `GITHUB_PAGES=true`; otherwise it emits `standalone` for Docker. Dynamic routes set `dynamicParams = false` and enumerate the two demo cases, the demo customers × their tabs, and the Pass 2 nav paths. Root and `/profiles/:id` redirects are client-side (`ClientRedirect`), since static hosting has no server redirects. Tab configs moved to plain (non-`"use client"`) modules so routes can read them at build time. `public/.nojekyll` stops Jekyll from dropping `_next/`.
+- Pages is served from the `gh-pages` branch (published by `peaceiris/actions-gh-pages`), which needs no repository-admin API call to set up.

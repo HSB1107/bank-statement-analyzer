@@ -20,18 +20,7 @@ import { IncomeTab } from "./income-tab";
 import { LiquidityTab } from "./liquidity-tab";
 import { ObligationsTab } from "./obligations-tab";
 import { OverviewTab } from "./overview-tab";
-
-/** Tabs are configuration: id, label, and whether Pass 1 builds them. */
-export const INDIVIDUAL_TABS = [
-  { id: "overview", label: "Overview", pass: 1 },
-  { id: "income", label: "Income", pass: 1 },
-  { id: "expenditure", label: "Expenditure", pass: 2 },
-  { id: "liquidity", label: "Liquidity", pass: 1 },
-  { id: "obligations", label: "Obligations & Debt", pass: 1 },
-  { id: "behaviour", label: "Transaction Behaviour", pass: 2 },
-  { id: "risk", label: "AI Risk Signals", pass: 1 },
-  { id: "report", label: "Report", pass: 2 },
-] as const;
+import { INDIVIDUAL_TABS } from "./tabs";
 
 function TabBody<T>({
   q,

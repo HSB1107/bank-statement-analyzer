@@ -22,6 +22,20 @@ docker compose --profile prod up --build   # standalone production image on :300
 
 The `Dockerfile` is multi-stage: `deps` → `dev` | `build` → `runtime`. The runtime stage contains only the Next.js standalone output and runs as user `nextjs`. Build args `NEXT_PUBLIC_DATA_SOURCE` and `NEXT_PUBLIC_API_BASE_URL` are inlined at build time.
 
+### GitHub Pages
+
+Live demo: **https://hsb1107.github.io/bank-statement-analyzer/** (mock data, sign in with the simulated SSO button).
+
+```bash
+npm run build:pages     # GITHUB_PAGES=true → static export in ./out, base path /bank-statement-analyzer
+```
+
+`.github/workflows/deploy-pages.yml` runs `npm run check`, builds the export and publishes `./out` to the `gh-pages` branch on every push to `main`. The default build still produces the standalone server for Docker. Static mode works because:
+
+- every dynamic route enumerates the demo entities via `generateStaticParams`;
+- redirects are client-side;
+- the mock adapters run in the browser.
+
 ## Screens
 
 | Route                                                                     | Screen                                     |

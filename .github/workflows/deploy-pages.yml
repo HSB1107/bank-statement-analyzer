@@ -1,0 +1,45 @@
+name: Deploy to GitHub Pages
+
+# Builds the fully static export (mock data source) and publishes it to the gh-pages branch,
+# which GitHub Pages serves at https://<owner>.github.io/<repo>/.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck, lint, test
+        run: npm run check
+
+      - name: Build static export
+        run: npm run build:pages
+        env:
+          NEXT_PUBLIC_DATA_SOURCE: mock
+          PAGES_BASE_PATH: /${{ github.event.repository.name }}
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          force_orphan: true
+          commit_message: "Deploy ${{ github.sha }}"

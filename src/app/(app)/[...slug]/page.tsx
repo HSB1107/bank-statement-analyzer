@@ -7,6 +7,12 @@ const DEMO_LINKS = [
   { label: "Meridian case BSA-26-04421", href: "/cases/BSA-26-04421/ingestion" },
 ] as const;
 
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return ALL_NAV_ITEMS.filter((i) => i.pass === 2).map((i) => ({ slug: i.href.split("/").filter(Boolean) }));
+}
+
 export default async function Pass2Page({ params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
   const path = `/${slug.join("/")}`;
